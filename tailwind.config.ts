@@ -5,13 +5,11 @@ const config = {
   content: ['./src/**/*.{ts,tsx}'],
   theme: {
     extend: {
-      screens: {
-        xs: '450px'
-      },
+      screens: { xs: '450px' },
       fontFamily: {
-        sans: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        serif: ['var(--font-serif)', 'ui-serif', 'Georgia', 'serif'],
-        mono: ['var(--font-mono)', 'ui-monospace', 'monospace']
+        display: ['var(--font-display)', 'ui-serif', 'Georgia', 'serif'],
+        body: ['var(--font-body)', 'ui-serif', 'Georgia', 'serif'],
+        ui: ['var(--font-ui)', 'system-ui', 'sans-serif']
       },
       colors: {
         bg: 'var(--bg)',
@@ -24,14 +22,12 @@ const config = {
         'rule-strong': 'var(--rule-strong)',
         accent: 'var(--accent)',
         'accent-ink': 'var(--accent-ink)',
-        'accent-soft': 'var(--accent-soft)'
+        'accent-soft': 'var(--accent-soft)',
+        gold: 'var(--gold)',
+        'gold-soft': 'var(--gold-soft)'
       },
-      maxWidth: {
-        measure: 'var(--measure)'
-      },
-      borderRadius: {
-        DEFAULT: 'var(--radius)'
-      }
+      maxWidth: { measure: 'var(--measure)' },
+      borderRadius: { DEFAULT: 'var(--radius)' }
     }
   },
   plugins: []

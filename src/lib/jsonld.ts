@@ -1,33 +1,31 @@
-import { SITE, abs } from '@/lib/site';
+import { SITE } from '@/lib/site';
+import { localePath, type Locale } from '@/lib/i18n';
+import { IDENTITY, ABOUT, isEmpty, t } from '@/lib/content';
 
-/** Person graph. Claims only what is verifiable; no subject matter asserted yet. */
-export const personSchema = {
+/**
+ * Structured data. Every field is conditional on the content actually
+ * existing — an empty name or bio is omitted rather than emitted blank.
+ */
+export const personSchema = (locale: Locale) => ({
   '@context': 'https://schema.org',
   '@type': 'Person',
-  name: SITE.name,
-  alternateName: SITE.shortName,
+  ...(IDENTITY.name ? { name: IDENTITY.name } : {}),
   url: SITE.url,
-  email: `mailto:${SITE.email}`,
-  homeLocation: { '@type': 'Place', name: SITE.location },
-  alumniOf: {
-    '@type': 'CollegeOrUniversity',
-    name: 'University of Mississippi',
-    sameAs: 'https://olemiss.edu'
-  },
-  sameAs: [SITE.github, SITE.linkedin]
-};
+  ...(IDENTITY.email ? { email: `mailto:${IDENTITY.email}` } : {}),
+  ...(isEmpty(ABOUT.bio) ? {} : { description: t(ABOUT.bio, locale) }),
+  knowsLanguage: ['en', 'uz', 'ru'],
+  sameAs: [SITE.xarita]
+});
 
-export const websiteSchema = {
+export const websiteSchema = (locale: Locale) => ({
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: SITE.shortName,
-  url: SITE.url,
-  description: SITE.description,
-  inLanguage: 'en',
-  author: { '@type': 'Person', name: SITE.name, url: SITE.url }
-};
+  ...(IDENTITY.name ? { name: IDENTITY.name } : {}),
+  url: `${SITE.url}${localePath(locale) === '/' ? '' : localePath(locale)}`,
+  description: t(IDENTITY.tagline, locale),
+  inLanguage: locale,
+  ...(IDENTITY.name ? { author: { '@type': 'Person', name: IDENTITY.name } } : {})
+});
 
-/** Renders a JSON-LD block. Kept in one place so escaping is handled once. */
+/** Renders a JSON-LD block, escaping the one character that can break out. */
 export const jsonLd = (schema: unknown) => JSON.stringify(schema).replace(/</g, '\\u003c');
-
-export { abs };

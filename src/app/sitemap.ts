@@ -1,16 +1,28 @@
 import type { MetadataRoute } from 'next';
 import { SITE } from '@/lib/site';
+import { LOCALES, localePath } from '@/lib/i18n';
 
-/** Add a route here the moment it ships; the OG map in app/og keys off the same names. */
-const routes: { path: string; priority: number }[] = [{ path: '', priority: 1 }];
+const PATHS = [
+  { path: '', priority: 1 },
+  { path: '/research', priority: 0.9 }
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
 
-  return routes.map(({ path, priority }) => ({
-    url: `${SITE.url}${path}`,
-    lastModified,
-    changeFrequency: 'monthly',
-    priority
-  }));
+  /* Every path in every language, each entry listing the others as
+     alternates — the sitemap half of the hreflang signal. */
+  return PATHS.flatMap(({ path, priority }) =>
+    LOCALES.map((locale) => ({
+      url: `${SITE.url}${localePath(locale, path) === '/' ? '/' : localePath(locale, path)}`,
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority,
+      alternates: {
+        languages: Object.fromEntries(
+          LOCALES.map((l) => [l, `${SITE.url}${localePath(l, path)}`])
+        )
+      }
+    }))
+  );
 }

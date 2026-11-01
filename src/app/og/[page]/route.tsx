@@ -1,22 +1,16 @@
 import { ImageResponse } from 'next/og';
+import { IDENTITY, RESEARCH, t } from '@/lib/content';
 import { SITE } from '@/lib/site';
 
 export const runtime = 'edge';
 
-/**
- * One dynamic OG image per page: /og/home, /og/about, and so on. Add the page
- * key here when you add the route, and reference `/og/<key>` from that page's
- * generateMetadata. Intentionally plain — it will be redrawn with the rest of
- * the visual identity.
- */
-const SUBTITLES: Record<string, string> = {
-  home: 'A personal site about history'
-};
-
+/** One image per page. Set in the page's generateMetadata as `/og/<key>`. */
 export function GET(_request: Request, { params }: { params: { page: string } }) {
   const page = params.page.toLowerCase();
-  const subtitle = SUBTITLES[page] ?? SUBTITLES.home;
-  const path = page === 'home' ? '' : `/${page}`;
+  const isPaper = page === 'research';
+
+  const heading = isPaper ? RESEARCH.title : IDENTITY.name;
+  const sub = isPaper ? t(RESEARCH.process, 'en') : t(IDENTITY.tagline, 'en');
   const host = SITE.url.replace(/^https?:\/\//, '');
 
   return new ImageResponse(
@@ -29,26 +23,30 @@ export function GET(_request: Request, { params }: { params: { page: string } })
           flexDirection: 'column',
           justifyContent: 'center',
           padding: '80px',
-          background: '#fcfcfb',
-          color: '#16181b',
+          background: '#f7f3ea',
+          color: '#1f1c17',
           fontFamily: 'serif'
         }}
       >
+        {/* The same ochre rule the site uses to open a section. */}
+        <div style={{ width: 64, height: 2, background: '#9a7324' }} />
         <div
           style={{
-            fontSize: 84,
-            lineHeight: 1.05,
-            letterSpacing: '-0.02em'
+            fontSize: isPaper ? 60 : 84,
+            lineHeight: 1.08,
+            letterSpacing: '-0.015em',
+            marginTop: 34,
+            maxWidth: 1000
           }}
         >
-          {SITE.name}
+          {heading}
         </div>
-        <div style={{ fontSize: 34, color: '#5b626b', marginTop: 28, maxWidth: 940 }}>
-          {subtitle}
+        <div style={{ fontSize: 30, color: '#6a6253', marginTop: 28, maxWidth: 940 }}>
+          {sub}
         </div>
-        <div style={{ display: 'flex', marginTop: 56, fontSize: 24, color: '#767d86' }}>
+        <div style={{ display: 'flex', marginTop: 52, fontSize: 22, color: '#8a8172' }}>
           {host}
-          {path}
+          {isPaper ? '/research' : ''}
         </div>
       </div>
     ),

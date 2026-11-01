@@ -1,8 +1,4 @@
-/**
- * Single source of truth for site-wide constants. Everything that needs the
- * canonical origin (metadata, sitemap, robots, JSON-LD, OG images) reads it
- * from here so there is exactly one place to change when the domain lands.
- */
+import { DEFAULT_LOCALE, LOCALES, localePath, type Locale } from '@/lib/i18n';
 
 /** Production origin. Set NEXT_PUBLIC_SITE_URL once a custom domain is attached. */
 const url =
@@ -11,18 +7,21 @@ const url =
 
 export const SITE = {
   url,
-  name: 'Muzaffar Khaydarov',
-  shortName: 'M. Haydarov',
-  // TODO: title, description and theme are placeholders until the history
-  // direction is set. Nothing below claims a subject or a thesis.
-  title: 'Muzaffar Khaydarov',
-  description: 'A personal site about history. Currently being written.',
-  email: 'mkhaydar@go.olemiss.edu',
-  github: 'https://github.com/mountstorm',
-  linkedin: 'https://www.linkedin.com/in/muzaffar-',
-  location: 'Oxford, MS',
-  locale: 'en_US'
+  xarita: 'https://xarita-learn.online',
+  locale: DEFAULT_LOCALE
 } as const;
 
 /** Absolute URL for a site-relative path. */
 export const abs = (path: string) => new URL(path, SITE.url).toString();
+
+/**
+ * Canonical + hreflang for one page, in every language. Search engines need
+ * all three to understand that these are the same page, not duplicates.
+ */
+export function alternates(locale: Locale, path = '') {
+  const languages: Record<string, string> = {};
+  for (const l of LOCALES) languages[l] = localePath(l, path);
+  languages['x-default'] = localePath(DEFAULT_LOCALE, path);
+
+  return { canonical: localePath(locale, path), languages };
+}

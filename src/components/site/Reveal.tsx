@@ -29,7 +29,9 @@ export default function Reveal() {
           observer.unobserve(entry.target);
         }
       },
-      { rootMargin: '0px 0px -10% 0px', threshold: 0.05 }
+      // Positive bottom margin: reveal just BEFORE the section scrolls in, so
+      // fast scrolling never shows an empty band.
+      { rootMargin: '0px 0px 12% 0px', threshold: 0 }
     );
 
     targets.forEach((t) => observer.observe(t));
@@ -37,7 +39,7 @@ export default function Reveal() {
     // Last-resort unblank: if anything goes wrong, show everything.
     const failsafe = window.setTimeout(() => {
       targets.forEach((t) => (t.dataset.revealed = 'true'));
-    }, 3000);
+    }, 1500);
 
     return () => {
       observer.disconnect();
