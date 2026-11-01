@@ -39,8 +39,8 @@ export const IDENTITY = {
     uz: '',
     ru: ''
   } as LocalizedText,
-  /** TODO: contact email. An email and nothing else — no phone, no address. */
-  email: '',
+  /** Contact is an email and nothing else — no phone, no address, no schedule. */
+  email: 'muhammadsodiqx2009@gmail.com',
   /** Optional portrait in /public. Leave empty to omit it entirely. */
   portrait: '',
   portraitAlt: { en: '' } as LocalizedText
