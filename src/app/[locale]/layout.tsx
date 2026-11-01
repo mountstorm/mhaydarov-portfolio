@@ -39,8 +39,12 @@ export function generateMetadata({ params }: { params: { locale: Locale } }): Me
     /* The icon files live in src/app, one level above this root layout, so
        Next does not attach them automatically. Declared here instead. */
     icons: {
-      icon: [{ url: '/icon.png', type: 'image/png', sizes: '512x512' }],
-      shortcut: ['/icon.png'],
+      icon: [
+        /* 2.6 KB for the tab; the larger one only when something needs it. */
+        { url: '/icon-32.png', type: 'image/png', sizes: '32x32' },
+        { url: '/icon.png', type: 'image/png', sizes: '192x192' }
+      ],
+      shortcut: ['/icon-32.png'],
       apple: [{ url: '/apple-icon.png', sizes: '180x180' }]
     },
     openGraph: {
