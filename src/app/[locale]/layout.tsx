@@ -36,6 +36,13 @@ export function generateMetadata({ params }: { params: { locale: Locale } }): Me
     authors: name ? [{ name, url: SITE.url }] : undefined,
     creator: name || undefined,
     alternates: alternates(locale),
+    /* The icon files live in src/app, one level above this root layout, so
+       Next does not attach them automatically. Declared here instead. */
+    icons: {
+      icon: [{ url: '/icon.png', type: 'image/png', sizes: '512x512' }],
+      shortcut: ['/icon.png'],
+      apple: [{ url: '/apple-icon.png', sizes: '180x180' }]
+    },
     openGraph: {
       type: 'website',
       siteName: name || undefined,

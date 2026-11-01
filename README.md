@@ -56,6 +56,18 @@ pass and want a native read-through.
 - **Privacy:** contact is an email and nothing else. No phone number, home address or schedule anywhere in the content model.
 - **The canonical origin** comes from `NEXT_PUBLIC_SITE_URL`, falling back to the Vercel URL. Set it in Vercel when a custom domain is attached.
 
+## Favicon
+
+`src/app/icon.png` and `src/app/apple-icon.png` are a tight crop of Vasily
+Perov's 1872 portrait of Dostoyevsky, from Wikimedia Commons. The painting is
+public domain (Perov died in 1882), so no attribution is required, but it is
+worth recording where it came from.
+
+They sit in `src/app`, one level above the root layout at `src/app/[locale]`,
+so Next does not attach them automatically — the `icons` field in that
+layout's `generateMetadata` is what emits the `<link>` tags. Moving or
+renaming the files means updating that field too.
+
 ## Deployment
 
 Vercel. Auto-deploy from `main` needs the Vercel GitHub App granted access to
