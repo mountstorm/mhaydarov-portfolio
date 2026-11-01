@@ -58,15 +58,16 @@ pass and want a native read-through.
 
 ## Favicon
 
-`src/app/icon.png` and `src/app/apple-icon.png` are a tight crop of Vasily
+`public/icon-32.png`, `public/icon.png` and `public/apple-icon.png` are a tight crop of Vasily
 Perov's 1872 portrait of Dostoyevsky, from Wikimedia Commons. The painting is
 public domain (Perov died in 1882), so no attribution is required, but it is
 worth recording where it came from.
 
-They sit in `src/app`, one level above the root layout at `src/app/[locale]`,
-so Next does not attach them automatically — the `icons` field in that
-layout's `generateMetadata` is what emits the `<link>` tags. Moving or
-renaming the files means updating that field too.
+They live in `public/`, not in `app/`: Next serves only its own reserved icon
+filenames from `app/`, so a name like `icon-32.png` there is a 404. The
+`icons` field in `src/app/[locale]/layout.tsx` is what emits the `<link>`
+tags — renaming a file means updating that field too. The tab icon is the
+2.6 KB 32px version; the 192px one is only fetched when something needs it.
 
 ## Deployment
 

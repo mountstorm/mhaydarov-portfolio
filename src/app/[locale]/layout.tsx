@@ -36,8 +36,10 @@ export function generateMetadata({ params }: { params: { locale: Locale } }): Me
     authors: name ? [{ name, url: SITE.url }] : undefined,
     creator: name || undefined,
     alternates: alternates(locale),
-    /* The icon files live in src/app, one level above this root layout, so
-       Next does not attach them automatically. Declared here instead. */
+    /* The icons live in /public, not in app/: Next only serves its own
+       reserved icon filenames from app/, so a name like icon-32.png there is
+       a 404. Served from public they keep these URLs, and these declarations
+       are what emit the <link> tags. */
     icons: {
       icon: [
         /* 2.6 KB for the tab; the larger one only when something needs it. */
