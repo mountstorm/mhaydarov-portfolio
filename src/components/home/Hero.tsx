@@ -1,20 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { localePath, ui, type Locale } from '@/lib/i18n';
+import { type Locale } from '@/lib/i18n';
+import { navItems } from '@/lib/nav';
 import { IDENTITY, t } from '@/lib/content';
 
 export default function Hero({ locale }: { locale: Locale }) {
-  const copy = ui(locale);
-  const home = localePath(locale);
-  const at = (hash: string) => `${home === '/' ? '' : home}/#${hash}`.replace('//#', '/#');
-
-  const buttons = [
-    { href: at('research'), label: copy.nav.research },
-    { href: at('xarita'), label: copy.nav.xarita },
-    { href: at('writing'), label: copy.nav.writing },
-    { href: at('music'), label: copy.nav.music }
-  ];
-
   return (
     <section className="reveal py-20 sm:py-28">
       <div className="flex flex-col gap-10 sm:flex-row sm:items-start sm:gap-12">
@@ -31,14 +21,14 @@ export default function Hero({ locale }: { locale: Locale }) {
 
         <div>
           <h1 className="font-display text-[2.6rem] leading-[1.08] tracking-tight sm:text-6xl">
-            {IDENTITY.name || <span className="text-faint">{copy.toAdd}</span>}
+            {IDENTITY.name}
           </h1>
           <p className="measure mt-5 text-lg leading-relaxed text-muted sm:text-xl">
             {t(IDENTITY.tagline, locale)}
           </p>
 
           <nav aria-label="Sections" className="mt-9 flex flex-wrap gap-2.5">
-            {buttons.map((b) => (
+            {navItems(locale).map((b) => (
               <Link
                 key={b.href}
                 href={b.href}

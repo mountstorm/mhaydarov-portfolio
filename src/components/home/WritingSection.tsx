@@ -9,13 +9,21 @@ export default function WritingSection({ locale }: { locale: Locale }) {
 
   return (
     <Section id="writing" label={copy.sections.writing}>
-      <p className="measure text-lg text-ink">{t(WRITING.about, locale)}</p>
+      <h3 className="font-display text-3xl leading-tight sm:text-4xl">
+        {WRITING.title}
+        <span className="font-body text-base italic text-faint">
+          {' '}
+          ({t(WRITING.titleNote, locale)})
+        </span>
+      </h3>
+
+      <p className="measure mt-5 text-lg text-ink">{t(WRITING.about, locale)}</p>
 
       {isEmpty(WRITING.excerpt) ? (
         <div className="mt-8">
           <Pending
             locale={locale}
-            what="One polished excerpt, about a page — the strongest scene, not the opening."
+            what="One polished excerpt, about a page — the strongest scene, not the opening. Give the translated idioms a pass first."
           />
         </div>
       ) : (

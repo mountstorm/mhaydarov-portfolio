@@ -8,9 +8,7 @@ import { jsonLd } from '@/lib/jsonld';
 
 export function generateMetadata({ params }: { params: { locale: Locale } }): Metadata {
   const { locale } = params;
-  const description = isEmpty(RESEARCH.abstract)
-    ? t(RESEARCH.process, locale)
-    : t(RESEARCH.abstract, locale).slice(0, 200);
+  const description = t(RESEARCH.abstract, locale).slice(0, 200);
 
   return {
     title: RESEARCH.title,
@@ -63,8 +61,10 @@ export default function ResearchPage({ params }: { params: { locale: Locale } })
         {RESEARCH.title}
       </h1>
 
+      <p className="mt-5 font-ui text-sm text-faint">{t(RESEARCH.meta, locale)}</p>
+
       <p className="measure mt-7 border-l-2 border-gold pl-4 font-ui text-sm text-faint">
-        {t(RESEARCH.process, locale)}
+        {t(RESEARCH.mentor, locale)}
       </p>
 
       <section aria-labelledby="abstract" className="measure mt-12">
@@ -72,11 +72,7 @@ export default function ResearchPage({ params }: { params: { locale: Locale } })
           {copy.abstract}
         </h2>
         <div className="copy mt-4 text-lg leading-relaxed text-ink">
-          {isEmpty(RESEARCH.abstract) ? (
-            <Pending locale={locale} what="Abstract, 100–150 words, in plain language." />
-          ) : (
-            <p>{t(RESEARCH.abstract, locale)}</p>
-          )}
+          <p>{t(RESEARCH.abstract, locale)}</p>
         </div>
       </section>
 

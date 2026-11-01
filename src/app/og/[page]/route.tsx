@@ -10,7 +10,7 @@ export function GET(_request: Request, { params }: { params: { page: string } })
   const isPaper = page === 'research';
 
   const heading = isPaper ? RESEARCH.title : IDENTITY.name;
-  const sub = isPaper ? t(RESEARCH.process, 'en') : t(IDENTITY.tagline, 'en');
+  const sub = isPaper ? t(RESEARCH.meta, 'en') : t(IDENTITY.tagline, 'en');
   const host = SITE.url.replace(/^https?:\/\//, '');
 
   return new ImageResponse(

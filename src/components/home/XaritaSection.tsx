@@ -9,23 +9,13 @@ export default function XaritaSection({ locale }: { locale: Locale }) {
 
   return (
     <Section id="xarita" label={copy.sections.xarita}>
-      <div className="measure copy text-muted">
-        {isEmpty(XARITA.what) ? (
-          <Pending locale={locale} what="What Xarita does, in two sentences." />
-        ) : (
-          <p className="text-lg text-ink">{t(XARITA.what, locale)}</p>
-        )}
-      </div>
+      <h3 className="font-display text-3xl leading-tight sm:text-4xl">
+        {t(XARITA.title, locale)}
+      </h3>
 
-      <div className="measure mt-6">
-        {isEmpty(XARITA.role) ? (
-          <Pending
-            locale={locale}
-            what="His role specifically, with his brother credited as co-creator."
-          />
-        ) : (
-          <p className="text-muted">{t(XARITA.role, locale)}</p>
-        )}
+      <div className="measure copy mt-6 text-muted">
+        <p className="text-lg text-ink">{t(XARITA.what, locale)}</p>
+        <p>{t(XARITA.role, locale)}</p>
       </div>
 
       {/* Screenshots: old map over modern, the year slider, the language switch. */}
@@ -52,8 +42,8 @@ export default function XaritaSection({ locale }: { locale: Locale }) {
         </div>
       )}
 
-      {XARITA.stats.length > 0 ? (
-        <dl className="mt-10 flex flex-wrap gap-x-12 gap-y-6 border-t border-rule pt-8">
+      <div className="mt-10 border-t border-rule pt-8">
+        <dl className="flex flex-wrap gap-x-12 gap-y-6">
           {XARITA.stats.map((stat) => (
             <div key={t(stat.label, locale)}>
               <dt className="eyebrow">{t(stat.label, locale)}</dt>
@@ -61,14 +51,18 @@ export default function XaritaSection({ locale }: { locale: Locale }) {
             </div>
           ))}
         </dl>
-      ) : (
-        <div className="mt-10">
-          <Pending
-            locale={locale}
-            what="Real numbers — users, organizations — matching the activities list exactly."
-          />
-        </div>
-      )}
+
+        {isEmpty(XARITA.reach) ? (
+          <div className="mt-6">
+            <Pending
+              locale={locale}
+              what="How many organizations or teachers use it — the draft left “5 organizations” and “10 history teachers” undecided. It must match the resume and the Common App."
+            />
+          </div>
+        ) : (
+          <p className="measure mt-4 text-muted">{t(XARITA.reach, locale)}</p>
+        )}
+      </div>
 
       {!isEmpty(XARITA.quote.text) ? (
         <figure className="measure mt-10 border-l-2 border-gold pl-5">
@@ -88,7 +82,7 @@ export default function XaritaSection({ locale }: { locale: Locale }) {
           rel="noopener noreferrer"
           className="link font-ui text-sm"
         >
-          {copy.visitXarita} ↗
+          {copy.openXarita} →
         </a>
       </p>
     </Section>

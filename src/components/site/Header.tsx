@@ -1,24 +1,17 @@
 import Link from 'next/link';
 import LanguageSwitch from '@/components/site/LanguageSwitch';
 import ThemeToggle from '@/components/site/ThemeToggle';
-import { localePath, ui, type Locale } from '@/lib/i18n';
+import { localePath, type Locale } from '@/lib/i18n';
+import { navItems } from '@/lib/nav';
 import { IDENTITY } from '@/lib/content';
 
 /**
- * The four buttons from the brief, as anchors into the single scrolling page.
+ * The section buttons from the brief, as anchors into the single scrolling page.
  * They are absolute (locale root + hash) so they work from the paper page too.
  */
 export default function Header({ locale }: { locale: Locale }) {
-  const copy = ui(locale);
   const home = localePath(locale);
-  const at = (hash: string) => `${home === '/' ? '' : home}/#${hash}`.replace('//#', '/#');
-
-  const items = [
-    { href: at('research'), label: copy.nav.research },
-    { href: at('xarita'), label: copy.nav.xarita },
-    { href: at('writing'), label: copy.nav.writing },
-    { href: at('music'), label: copy.nav.music }
-  ];
+  const items = navItems(locale);
 
   return (
     <header className="sticky top-0 z-40 border-b border-rule bg-bg/85 backdrop-blur-sm">

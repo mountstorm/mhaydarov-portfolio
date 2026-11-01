@@ -35,19 +35,24 @@ export const OG_LOCALE: Record<Locale, string> = {
 export const UI = {
   en: {
     skip: 'Skip to content',
-    nav: { research: 'Research', xarita: 'Xarita', writing: 'Writing', music: 'Music' },
+    nav: {
+      research: 'Research',
+      xarita: 'Xarita',
+      community: 'Community',
+      writing: 'Writing',
+      music: 'Music'
+    },
     sections: {
       research: 'Research',
       xarita: 'Xarita',
-      teaching: 'Teaching & Community',
+      community: 'Community',
       writing: 'Writing',
       music: 'Music',
       about: 'About & Contact'
     },
     abstract: 'Abstract',
     underReview: 'Under review',
-    underReviewNote:
-      'The full paper is not posted while it is under consideration for publication.',
+    underReviewNote: 'Currently under review. Full paper available on request.',
     readPaper: 'Read the full paper',
     downloadPdf: 'Download the PDF',
     backHome: 'Back to the homepage',
@@ -55,15 +60,22 @@ export const UI = {
     email: 'Email',
     language: 'Language',
     toAdd: 'To add',
-    process: 'Process'
+    openXarita: 'Open Xarita',
+    listen: 'Listen'
   },
   uz: {
     skip: 'Asosiy qismga o‘tish',
-    nav: { research: 'Tadqiqot', xarita: 'Xarita', writing: 'Yozuvlar', music: 'Musiqa' },
+    nav: {
+      research: 'Tadqiqot',
+      xarita: 'Xarita',
+      community: 'Jamoa',
+      writing: 'Yozuvlar',
+      music: 'Musiqa'
+    },
     sections: {
       research: 'Tadqiqot',
       xarita: 'Xarita',
-      teaching: 'Ta’lim va jamoa',
+      community: 'Jamoa',
       writing: 'Yozuvlar',
       music: 'Musiqa',
       about: 'Men haqimda va aloqa'
@@ -71,7 +83,7 @@ export const UI = {
     abstract: 'Annotatsiya',
     underReview: 'Ko‘rib chiqilmoqda',
     underReviewNote:
-      'Maqola nashrga ko‘rib chiqilayotgani sababli to‘liq matn hozircha joylanmagan.',
+      'Hozirda ko‘rib chiqilmoqda. To‘liq maqolani so‘rov asosida olish mumkin.',
     readPaper: 'To‘liq maqolani o‘qish',
     downloadPdf: 'PDF yuklab olish',
     backHome: 'Bosh sahifaga qaytish',
@@ -79,20 +91,22 @@ export const UI = {
     email: 'Elektron pochta',
     language: 'Til',
     toAdd: 'Qo‘shilishi kerak',
-    process: 'Jarayon'
+    openXarita: 'Xarita’ni ochish',
+    listen: 'Tinglash'
   },
   ru: {
     skip: 'Перейти к содержанию',
     nav: {
       research: 'Исследование',
       xarita: 'Xarita',
+      community: 'Сообщество',
       writing: 'Проза',
       music: 'Музыка'
     },
     sections: {
       research: 'Исследование',
       xarita: 'Xarita',
-      teaching: 'Преподавание и сообщество',
+      community: 'Сообщество',
       writing: 'Проза',
       music: 'Музыка',
       about: 'Обо мне и контакты'
@@ -100,7 +114,7 @@ export const UI = {
     abstract: 'Аннотация',
     underReview: 'На рассмотрении',
     underReviewNote:
-      'Полный текст не публикуется, пока работа находится на рассмотрении в журнале.',
+      'Сейчас на рассмотрении. Полный текст доступен по запросу.',
     readPaper: 'Читать полную работу',
     downloadPdf: 'Скачать PDF',
     backHome: 'Вернуться на главную',
@@ -108,7 +122,8 @@ export const UI = {
     email: 'Электронная почта',
     language: 'Язык',
     toAdd: 'Добавить',
-    process: 'Процесс'
+    openXarita: 'Открыть Xarita',
+    listen: 'Слушать'
   }
 } as const;
 
