@@ -1,76 +1,79 @@
 # mhaydarov-portfolio
 
-A personal site for a student researcher in Tashkent — history, languages and
-maps. One scrolling homepage plus a separate page for the research paper, in
-English, Uzbek and Russian.
+**A personal site for Muhammad Sodik Khaydarov, a student researcher from Tashkent working where history, languages and maps meet. English, Uzbek and Russian.**
 
-Separate from, and unrelated to, the software-engineering portfolio at
-[muzaffarkhaydarov.com](https://muzaffarkhaydarov.com).
+[![Live site](https://img.shields.io/badge/live-mhaydarov--portfolio.vercel.app-b3200f)](https://mhaydarov-portfolio.vercel.app/)
+[![Next.js 14](https://img.shields.io/badge/next.js-14-4a3421)](package.json)
 
-## Running it
+**Live:** https://mhaydarov-portfolio.vercel.app/
+
+![The homepage in dark mode](docs/home.png)
+
+Built by Muzaffar Khaydarov for his brother. It is a separate site from Muzaffar's own
+software-engineering portfolio ([`muzaffars`](https://github.com/mountstorm/muzaffars)), with different content and a different purpose.
+
+## What's on the site
+
+- **One scrolling homepage** with sections for Research, Xarita, Community, Writing and Music
+- **A page for the research paper**: *Measuring Before Believing: The Khwarazmian Origins of
+  al-Biruni's Comparative Method*, shown as an abstract and status badge while it is under review
+- **Three languages**: English at `/`, Uzbek at `/uz`, Russian at `/ru`, each with its own
+  canonical URL and `hreflang` tags
+- **Light and dark theme**, applied before first paint so there is no flash
+- **Per-page social cards** generated at `/og/home` and `/og/research`
+
+## Architecture
+
+```mermaid
+flowchart LR
+  C["src/lib/content.ts<br/>all copy, { en, uz, ru }"] --> P["Next.js App Router<br/>/[locale] pages, statically generated"]
+  I["src/lib/i18n.ts<br/>interface strings"] --> P
+  P --> V["Vercel"]
+```
+
+All the words on the site live in one file, so changing the text never means touching components.
+Untranslated Uzbek and Russian fields fall back to English, and empty fields render a visible
+"To add" slot instead of filler text, so the site never says anything its author did not write.
+
+## Run it
+
+Needs Node 18 or newer.
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Filling in the content
+Open http://localhost:3000.
 
-**All copy lives in [`src/lib/content.ts`](src/lib/content.ts).** Nothing else
-needs touching to put the site live. Fields that are still empty render a
-visible "To add" slot on the page rather than placeholder prose — so the site
-never asserts anything its author did not write, and so what is missing is
-obvious at a glance.
+| Script | What it does |
+|---|---|
+| `npm run dev` | Dev server |
+| `npm run build` | Production build |
+| `npm run start` | Serve the production build |
+| `npm run lint` | `next lint` |
 
-Start with `IDENTITY.name` and `IDENTITY.email`: they are empty, and the
-header, footer, metadata and JSON-LD all read from them.
+Deploys to Vercel. Pushes to `main` auto-deploy once the Vercel GitHub App has access to the
+repo; otherwise `npx vercel deploy --prod --yes`.
 
-Each text field is `{ en, uz, ru }`. `uz` and `ru` fall back to `en` when
-empty, so a missing translation is never a broken page.
+## Details worth keeping
 
-`RESEARCH.underReview` is `true`, so the paper page shows the abstract and a
-status badge only. The Concord Review requires unpublished work. If he is not
-submitting there, set it to `false` and point `RESEARCH.pdf` at a file in
-`/public`.
+- **Scroll reveals fail visible.** Content is opaque by default and is only hidden after the
+  reveal script confirms it can show it again, with a 1.5 s failsafe. A simpler version blanked
+  the live site twice.
+- **Filename casing matters.** macOS ignores case and Vercel's Linux build does not, so check
+  `git ls-files` before trusting a green local build.
+- **Privacy by design.** Contact is an email and nothing else: no phone, address or schedule.
+- **Favicon** is a crop of Vasily Perov's 1872 portrait of Dostoyevsky from Wikimedia Commons,
+  in the public domain.
 
-Interface strings — section names, buttons, "Under review" — are in
-[`src/lib/i18n.ts`](src/lib/i18n.ts). The Uzbek and Russian there are a first
-pass and want a native read-through.
+## Known limitations
 
-## Layout
+- **Some content is still "To add".** A few sections, such as Xarita screenshots, are waiting for the author's copy.
+- **Uzbek and Russian interface strings are a first pass** and want a native read-through.
+- **The paper is not downloadable yet.** It is under review, so only the abstract is public.
 
-- `src/app/[locale]` — the homepage and the paper page, statically generated for `en`, `uz` and `ru`.
-- `src/middleware.ts` — serves English at `/` and redirects `/en/*` away, so each page has exactly one URL.
-- `src/components/home` — one component per section, in the order of the brief.
-- `src/components/site` — header, footer, language switch, theme toggle, reveal, the "To add" slot.
-- `src/lib/content.ts` — everything the site says.
-- `src/lib/i18n.ts` — locales and interface strings.
+## Credits
 
-## Conventions worth keeping
-
-- **Design tokens** are CSS custom properties on `:root` in `src/app/globals.css`, overridden under `:root[data-theme='dark']`. Tailwind colours map onto those tokens, so a colour changes in one place.
-- **Theme is applied before paint** by the inline script in `ThemeScript.tsx`, which sets both `data-theme` and Tailwind's `dark` class.
-- **Scroll reveals fail visible.** Content is opaque in its base state; it can only be hidden after `Reveal.tsx` sets `data-reveal="ready"` on `<html>`, and only when `IntersectionObserver` exists and reduced motion is off. Animations use `animation-fill-mode: forwards` — never `both`, which applies the `opacity: 0` frame during the delay and blanks the page whenever the animation is deferred. There is also a 1.5s failsafe that reveals everything. This has taken a live site down twice; do not simplify it back.
-- **Filename casing matters.** macOS is case-insensitive, Vercel builds on Linux. Check with `git ls-files` before trusting a green local build.
-- **SEO** is per-locale: canonical plus `hreflang` on every page, all three languages in `sitemap.ts`, dynamic OG images at `/og/home` and `/og/research`, `Person` + `WebSite` + `ScholarlyArticle` JSON-LD.
-- **Privacy:** contact is an email and nothing else. No phone number, home address or schedule anywhere in the content model.
-- **The canonical origin** comes from `NEXT_PUBLIC_SITE_URL`, falling back to the Vercel URL. Set it in Vercel when a custom domain is attached.
-
-## Favicon
-
-`public/icon-32.png`, `public/icon.png` and `public/apple-icon.png` are a tight crop of Vasily
-Perov's 1872 portrait of Dostoyevsky, from Wikimedia Commons. The painting is
-public domain (Perov died in 1882), so no attribution is required, but it is
-worth recording where it came from.
-
-They live in `public/`, not in `app/`: Next serves only its own reserved icon
-filenames from `app/`, so a name like `icon-32.png` there is a 404. The
-`icons` field in `src/app/[locale]/layout.tsx` is what emits the `<link>`
-tags — renaming a file means updating that field too. The tab icon is the
-2.6 KB 32px version; the 192px one is only fetched when something needs it.
-
-## Deployment
-
-Vercel. Auto-deploy from `main` needs the Vercel GitHub App granted access to
-this repo (https://github.com/settings/installations → Vercel → Configure);
-until then, deploy with `npx vercel deploy --prod --yes`.
+Written and researched by Muhammad Sodik Khaydarov. Code by
+[Muzaffar Khaydarov](https://github.com/mountstorm). Set in Next.js and Tailwind CSS.
