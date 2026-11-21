@@ -7,8 +7,6 @@
 
 **Live:** https://mhaydarov-portfolio.vercel.app/
 
-![The homepage in dark mode](docs/home.png)
-
 Built by Muzaffar Khaydarov for his brother. It is a separate site from Muzaffar's own
 software-engineering portfolio ([`muzaffars`](https://github.com/mountstorm/muzaffars)), with different content and a different purpose.
 
